@@ -27,10 +27,8 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse(config);
     }
     else if (request.command == 'insert') {
-        if (config.connectorEnabled) {
-            if (config.checkForUpdatesId != -1)
-                clearTimeout(connector.checkForUpdatesId);
-        }
+        if (config.connectorEnabled)
+            clearTimeout(connector.checkForUpdatesId);
 
         config.connectorHost = request.host;
         config.connectorPort = parseInt(request.port);
@@ -38,7 +36,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         browser.storage.local.set(config);
 
         if (config.connectorEnabled) {
-            if (config.checkForUpdatesId != -1)
+            if (connector.checkForUpdatesId != -1)
                 connector.checkForUpdates();
         }
     }
@@ -47,7 +45,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (config.connectorEnabled) return;
 
         config.connectorEnabled = true;
-        if (config.checkForUpdatesId != -1)
+        if (connector.checkForUpdatesId != -1)
             connector.checkForUpdates();
     }
     else if (request.command == 'disableConnector') {

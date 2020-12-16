@@ -1,19 +1,21 @@
 const connector = {
 
-    checkForUpdatesId: -1,
+    checkForUpdatesId: 0,
     checkForUpdates: () => {
         if (!config.connectorEnabled) return;
-        config.checkForUpdatesId = -1;
+        connector.checkForUpdatesId = -1;
 
         fetch('http://' + config.connectorHost + ':' + config.connectorPort + '/' + config.connectorCheckInterval)
             .then(response => response.json())
             .then(json => {
                 if (json.queue) json.queue.forEach(connector.onUpdate);
-
+				
+				connector.checkForUpdatesId = 0;
                 if (!config.connectorEnabled) return;
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval);
             })
             .catch(error => {
+				connector.checkForUpdatesId = 0;
                 if (!config.connectorEnabled) return;
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval);
             });
