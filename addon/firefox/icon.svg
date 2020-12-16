@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+     width="1080" height="1080"
+     viewBox="0 0 1080 1080"
+     fill="#A9A9A9"
+     xml:space="preserve">
+    <g transform="matrix(5.83 0 0 5.83 852.52 229.92)">
+        <path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;"
+              transform=" translate(-50.5, -50)"
+              d="M 22.66 19.967 C 17.585 19.967 13.448 24.104 13.448 29.180999999999997 L 13.448 78.31 C 13.448 83.387 17.585 87.584 22.723 87.584 L 71.791 87.584 C 76.868 87.584 81.065 83.387 81.065 78.31 C 80.814 71.479 63.769999999999996 68.974 51.613 63.646 L 85.765 29.494999999999997 C 88.146 27.051 88.146 23.165 85.765 20.784 L 79.187 14.203999999999999 C 76.803 11.822999999999999 72.919 11.822999999999999 70.538 14.203999999999999 L 36.76 47.981 C 31.998 36.137 29.616 20.846 22.66 19.967 z"
+              stroke-linecap="round"/>
+    </g>
+    <g transform="matrix(6.03 0 0 6.03 852.96 849.58)">
+        <path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;"
+              transform=" translate(-50, -50)"
+              d="M 76.854 20.966 C 81.821 20.966 85.82 24.965 85.82 29.872 L 85.82 77.366 C 85.82 82.275 81.821 86.332 76.854 86.332 L 29.417 86.332 C 24.450000000000003 86.332 20.451 82.27499999999999 20.451 77.366 C 20.633 70.762 37.172 68.342 48.925 63.192 L 15.907 30.176 C 13.605 27.813 13.605 24.055999999999997 15.907 21.753999999999998 L 22.268 15.392999999999997 C 24.57 13.090999999999998 28.326 13.090999999999998 30.628 15.392999999999997 L 63.221000000000004 48.047 C 67.888 36.597 70.188 21.814 76.854 20.966 z"
+              stroke-linecap="round"/>
+    </g>
+    <g transform="matrix(8.3 0 0 8.3 286.72 540)">
+        <rect style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill-rule: nonzero; opacity: 1;"
+              x="-33.0835" y="-33.0835"
+              rx="0" ry="0"
+              width="66.167" height="66.167"/>
+    </g>
+</svg>
