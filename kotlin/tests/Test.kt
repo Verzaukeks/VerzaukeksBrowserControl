@@ -2,11 +2,19 @@ import browser.control.Browser
 import java.lang.Thread.sleep
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
+
+/*
+TODO
+    - chrome integration
+    - make available for other languages (python, c#, rust, ...)
+ */
 
 fun main(args: Array<String>) {
 
     val browser = Browser()
-    browser.start() // browser.start(port)
+    browser.start() // browser.start(port, daemon)
+    browser.ping()
 
     val tab = browser.newTab("https://example.com") // newTab(url, active)
     val currentTab = browser.getCurrentTab()

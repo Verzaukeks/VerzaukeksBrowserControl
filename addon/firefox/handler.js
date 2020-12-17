@@ -15,6 +15,31 @@ const converter = {
 
 };
 
+const browserAction = {
+
+    blinkStatus: false,
+    blinkIntervalId: 0,
+
+    clearBlink: () => {
+        clearTimeout(browserAction.blinkIntervalId);
+        browserAction.blinkStatus = false;
+        browser.browserAction.setBadgeText({ text: '' });
+    },
+
+    blink: () => {
+        browserAction.blinkIntervalId = setInterval(() => {
+            if (browserAction.blinkStatus) {
+                browser.browserAction.setBadgeText({ text: '' });
+                browserAction.blinkStatus = false;
+            } else {
+                browser.browserAction.setBadgeText({ text: '⨀' });
+                browserAction.blinkStatus = true;
+            }
+        }, 500);
+    }
+
+};
+
 const handler = {
 
     doWhenTabCompleted: (tabId, onCompleted) => {

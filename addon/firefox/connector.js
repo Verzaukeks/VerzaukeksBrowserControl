@@ -3,20 +3,15 @@ const connector = {
     checkForUpdatesId: 0,
     checkForUpdates: () => {
         if (!config.connectorEnabled) return;
+        if (connector.checkForUpdatesId == -1) return;
         connector.checkForUpdatesId = -1;
-
         fetch('http://' + config.connectorHost + ':' + config.connectorPort + '/' + config.connectorCheckInterval)
             .then(response => response.json())
             .then(json => {
                 if (json.queue) json.queue.forEach(connector.onUpdate);
-				
-				connector.checkForUpdatesId = 0;
-                if (!config.connectorEnabled) return;
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval);
             })
             .catch(error => {
-				connector.checkForUpdatesId = 0;
-                if (!config.connectorEnabled) return;
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval);
             });
     },
@@ -24,6 +19,10 @@ const connector = {
     onUpdate: (packet) => {
         if (!packet.type) return
         switch (packet.type) {
+        case "ping":
+            connector.sendAnswer(packet, {});
+            break;
+
         case "newTab":
             handler.newTab(packet);
             break;

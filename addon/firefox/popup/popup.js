@@ -1,4 +1,5 @@
 const binding = {
+    logo: document.getElementById('logo'),
     status: document.getElementById('status'),
     host: document.getElementById('host'),
     port: document.getElementById('port'),
@@ -16,7 +17,29 @@ function updateInformation(onlyPackets) {
         'command': 'receive'
     }).then(config => {
         if (!onlyPackets) {
-            binding.status.textContent = (config.connectorEnabled ? 'Running' : 'Halted');
+            if (config.connectorEnabled) {
+                binding.logo.setAttribute('class', 'green');
+                binding.status.textContent = 'Running';
+
+                binding.host.disabled = true;
+                binding.port.disabled = true;
+                binding.interval.disabled = true;
+
+                binding.save.setAttribute('class', 'disabled');
+                binding.stop.removeAttribute('class');
+                binding.start.setAttribute('class', 'disabled');
+            } else {
+                binding.logo.removeAttribute('class');
+                binding.status.textContent = 'Halted';
+
+                binding.host.disabled = false;
+                binding.port.disabled = false;
+                binding.interval.disabled = false;
+
+                binding.save.removeAttribute('class');
+                binding.stop.setAttribute('class', 'disabled');
+                binding.start.removeAttribute('class');
+            }
             binding.host.value = config.connectorHost;
             binding.port.value = config.connectorPort;
             binding.interval.value = config.connectorCheckInterval;
@@ -27,6 +50,9 @@ function updateInformation(onlyPackets) {
 }
 
 binding.save.onclick = () => {
+    if (binding.save.getAttribute('class') == 'disabled') return;
+    binding.save.setAttribute('class', 'disabled');
+
     browser.runtime.sendMessage({
         'receiver': 'config',
         'command': 'insert',
@@ -34,11 +60,12 @@ binding.save.onclick = () => {
         'port': binding.port.value,
         'interval': binding.interval.value
     }).then(response => {
-        updateInformation(false);
+        setTimeout(updateInformation, 1000, false);
     });
 };
 
 binding.stop.onclick = () => {
+    if (binding.stop.getAttribute('class') == 'disabled') return;
     browser.runtime.sendMessage({
         'receiver': 'config',
         'command': 'disableConnector'
@@ -48,6 +75,7 @@ binding.stop.onclick = () => {
 };
 
 binding.start.onclick = () => {
+    if (binding.start.getAttribute('class') == 'disabled') return;
     browser.runtime.sendMessage({
         'receiver': 'config',
         'command': 'enableConnector'

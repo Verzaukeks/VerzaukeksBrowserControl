@@ -23,11 +23,11 @@ class Browser {
     private val onTabCreated = ArrayList<(Tab) -> Unit>()
     private val onTabUpdated = ArrayList<(Tab) -> Unit>()
 
-    fun start(port: Int = 58001) {
+    fun start(port: Int = 58001, daemon: Boolean = false) {
         if (server != null) return
 
         server = ServerSocket(port)
-        thread = thread(block = ::run)
+        thread = thread(isDaemon = daemon, block = ::run)
     }
 
     fun stop(clearListeners: Boolean = false) {
@@ -162,6 +162,10 @@ class Browser {
 
             Thread.sleep(checkInterval)
         }
+    }
+
+    fun ping() {
+        request(JsonObject(), "ping", true)
     }
 
     fun newTab(url: String, active: Boolean = true): Tab {
