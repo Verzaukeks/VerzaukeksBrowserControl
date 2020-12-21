@@ -21,6 +21,10 @@ class Tab(
         }
     }
 
+    /**
+     * pull updated information from the addon about this tab, because it will not automatically do so
+     * (function blocks)
+     */
     fun updateInfo() {
         val response = browser.request(JsonObject().apply {
             addProperty("tabId", id)
@@ -32,6 +36,10 @@ class Tab(
         status = tab["status"].asString
     }
 
+    /**
+     * (function does not block)
+     * @param bypassCache (default = false)
+     */
     fun reload(bypassCache: Boolean = false) {
         browser.request(JsonObject().apply {
             addProperty("tabId", id)
@@ -39,12 +47,20 @@ class Tab(
         }, "reloadTab", false)
     }
 
+    /**
+     * (function does not block)
+     */
     fun remove() {
         browser.request(JsonObject().apply {
             addProperty("tabId", id)
         }, "removeTab", false)
     }
 
+    /**
+     * @param script
+     * @param expectAnswer (default = true) if set to true, function will block until a response is received,
+     * if set to false, function will directly return an empty string
+     */
     fun executeScript(script: String, expectAnswer: Boolean = true): String {
         val response = browser.request(JsonObject().apply {
             addProperty("tabId", id)
@@ -62,12 +78,24 @@ class Tab(
         }, "insertCSS", false)
     }
 
+    /**
+     * @param selector document.querySelector($selector)
+     * @param waitTillFinished (default = true) block until browser has actually pressed the button
+     */
     fun clickElement(selector: String, waitTillFinished: Boolean = true)
             = executeScript("document.querySelector('$selector').click();", waitTillFinished)
 
+    /**
+     * @param selector document.querySelector($selector)
+     * @param value
+     * @param waitTillFinished (default = false) block until browser has actually inserted the value
+     */
     fun inputText(selector: String, value: String, waitTillFinished: Boolean = false)
             = executeScript("document.querySelector('$selector').value = '$value';", waitTillFinished)
 
+    /**
+     * @param selector (default = "html") document.querySelector($selector)
+     */
     fun querySelector(selector: String = "html")
             = executeScript("document.querySelector('$selector').outerHTML;")
 

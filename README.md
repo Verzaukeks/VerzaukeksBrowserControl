@@ -4,7 +4,9 @@ and get access to many useful features as if it were an add-on.
 
 [Download Firefox-Addon Here](https://addons.mozilla.org/en-US/firefox/addon/verzaukeksbrowsercontrol/)
 
-![Firefox Popup](addon/firefox/extras/screenshot_popup.png)
+Download Chrome-Addon Here (not available)
+
+![Firefox Popup](addon/extras/screenshot_popup.png)
 
 ### Dependencies
 * [gson](https://github.com/google/gson)

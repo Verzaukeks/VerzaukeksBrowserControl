@@ -49,17 +49,20 @@ function updateInformation(onlyPackets) {
     });
 }
 
-binding.save.onclick = () => {
-    if (binding.save.getAttribute('class') == 'disabled') return;
-    binding.save.setAttribute('class', 'disabled');
-
+function sendSaveMessage(onResponse) {
     browser.runtime.sendMessage({
         'receiver': 'config',
         'command': 'insert',
         'host': binding.host.value,
         'port': binding.port.value,
         'interval': binding.interval.value
-    }).then(response => {
+    }).then(onResponse);
+}
+
+binding.save.onclick = () => {
+    if (binding.save.getAttribute('class') == 'disabled') return;
+    binding.save.setAttribute('class', 'disabled');
+    sendSaveMessage(response => {
         setTimeout(updateInformation, 1000, false);
     });
 };
@@ -76,11 +79,13 @@ binding.stop.onclick = () => {
 
 binding.start.onclick = () => {
     if (binding.start.getAttribute('class') == 'disabled') return;
-    browser.runtime.sendMessage({
-        'receiver': 'config',
-        'command': 'enableConnector'
-    }).then(response => {
-        updateInformation(false);
+    sendSaveMessage(r => {
+        browser.runtime.sendMessage({
+            'receiver': 'config',
+            'command': 'enableConnector'
+        }).then(response => {
+            updateInformation(false);
+        });
     });
 };
 

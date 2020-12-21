@@ -6,7 +6,10 @@ const connector = {
         if (connector.checkForUpdatesId == -1) return;
         connector.checkForUpdatesId = -1;
         fetch('http://' + config.connectorHost + ':' + config.connectorPort + '/' + config.connectorCheckInterval)
-            .then(response => response.json())
+            .then(response => {
+                debug.log(debug.CONNECTOR_RECEIVE, () => 'connector packet received: ' + response);
+                return response.json();
+            })
             .then(json => {
                 if (json.queue) json.queue.forEach(connector.onUpdate);
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval);
@@ -56,12 +59,15 @@ const connector = {
 
     sendUpdate: (packet, onResponse) => {
         if (!config.connectorEnabled) return;
+        let strPacket = JSON.stringify(packet)
+        debug.log(debug.CONNECTOR_SEND, () => 'connector packet send: ' + strPacket);
+
         fetch('http://' + config.connectorHost + ':' + config.connectorPort, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(packet)
+            body: strPacket
         })
             .then(response => response.json())
             .then(json => {
@@ -80,5 +86,3 @@ const connector = {
     }
 
 };
-
-connector.checkForUpdates();

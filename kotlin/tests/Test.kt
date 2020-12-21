@@ -4,10 +4,15 @@ import java.lang.Thread.sleep
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
 
+// https://developer.chrome.com/docs/extensions/reference/
+
 /*
 TODO
-    - chrome integration
     - make available for other languages (python, c#, rust, ...)
+    - bookmarks
+    - currentTab with optional windowId
+    - getTabs with tabOptions?
+    - dark mode option
  */
 
 fun main(args: Array<String>) {

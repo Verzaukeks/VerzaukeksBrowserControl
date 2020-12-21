@@ -20,6 +20,12 @@ const browserAction = {
     blinkStatus: false,
     blinkIntervalId: 0,
 
+    init: () => {
+        browser.browserAction.setBadgeTextColor({ color: '#f77c' });
+        browser.browserAction.setBadgeBackgroundColor({ color: '#0000' });
+        if (config.connectorEnabled) browserAction.blink();
+    },
+
     clearBlink: () => {
         clearTimeout(browserAction.blinkIntervalId);
         browserAction.blinkStatus = false;
@@ -27,6 +33,11 @@ const browserAction = {
     },
 
     blink: () => {
+        if (debug.isMobile) {
+            browser.browserAction.setBadgeText({ text: '⨀' });
+            browserAction.blinkStatus = true;
+            return;
+        }
         browserAction.blinkIntervalId = setInterval(() => {
             if (browserAction.blinkStatus) {
                 browser.browserAction.setBadgeText({ text: '' });
@@ -151,5 +162,3 @@ const handler = {
     }
 
 };
-
-handler.init();

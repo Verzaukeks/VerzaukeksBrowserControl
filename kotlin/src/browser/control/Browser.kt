@@ -23,6 +23,11 @@ class Browser {
     private val onTabCreated = ArrayList<(Tab) -> Unit>()
     private val onTabUpdated = ArrayList<(Tab) -> Unit>()
 
+    /**
+     * opens the connection to receive messages from an addon
+     * @param port (default = 58001)
+     * @param daemon (default = false) should the thread run as a deamon
+     */
     fun start(port: Int = 58001, daemon: Boolean = false) {
         if (server != null) return
 
@@ -30,6 +35,10 @@ class Browser {
         thread = thread(isDaemon = daemon, block = ::run)
     }
 
+    /**
+     * stops the connection to be able to receive messages from an addon
+     * @param clearListeners (default = false) removes all listeners add by onFunctions
+     */
     fun stop(clearListeners: Boolean = false) {
         if (server == null) return
 
@@ -126,6 +135,13 @@ class Browser {
         return null
     }
 
+    /**
+     * manually send a packet to an addon, normally not invoked by you
+     * @param request packet to send
+     * @param type packet type so addon knows what to do
+     * @param expectAnswer if set to true function will block until addon sends a response back
+     * @exception TimeoutException thrown if 12*checkInterval has passed without a response (only if expectAnswer)
+     */
     fun request(request: JsonObject, type: String, expectAnswer: Boolean): JsonObject? {
         val id = packetIndex++
 
@@ -164,10 +180,17 @@ class Browser {
         }
     }
 
+    /**
+     * check if an addon has established a connection, else throw an error
+     */
     fun ping() {
         request(JsonObject(), "ping", true)
     }
 
+    /**
+     * @param url
+     * @param active (default = true) should the new tab become the current active one
+     */
     fun newTab(url: String, active: Boolean = true): Tab {
         val response = request(JsonObject().apply {
             addProperty("url", url)

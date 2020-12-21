@@ -1,0 +1,65 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font: caption;
+}
+
+.group {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 12px;
+    padding: 12px;
+}
+
+.panel {
+    display: flex;
+    align-items: center;
+}
+
+header.panel {
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+}
+
+header.panel > div {
+    font-size: 1.4em;
+    font-weight: lighter;
+    margin-left: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+img.green {
+    filter: invert(55%) sepia(63%) saturate(4043%) hue-rotate(85deg) brightness(101%) contrast(117%);
+}
+
+footer.panel {
+    background: #eee;
+    border: 1px solid #ccc
+}
+
+footer.panel > .divider {
+    height: 16px;
+    border-left: 1px solid #ccc;
+}
+
+.panel > button {
+    border: none;
+    background: none;
+    width: 33%;
+    padding: 8px;
+}
+
+.panel > button:hover {
+    background: #ddd;
+}
+
+.group > input[type=text] {
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.panel > button.disabled {
+    background: #ddd;
+    color: #666;
+}
