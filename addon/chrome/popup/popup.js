@@ -1,3 +1,5 @@
+let darkThemeLink = null;
+
 const binding = {
     logo: document.getElementById('logo'),
     status: document.getElementById('status'),
@@ -6,6 +8,7 @@ const binding = {
     interval: document.getElementById('interval'),
     send: document.getElementById('send'),
     received: document.getElementById('received'),
+    toggleTheme: document.getElementById('toggleTheme'),
     save: document.getElementById('save'),
     stop: document.getElementById('stop'),
     start: document.getElementById('start')
@@ -43,6 +46,20 @@ function updateInformation(onlyPackets) {
            binding.host.value = config.connectorHost;
            binding.port.value = config.connectorPort;
            binding.interval.value = config.connectorCheckInterval;
+
+           if (config.darkMode) {
+               darkThemeLink = document.createElement('LINK');
+               darkThemeLink.setAttribute('rel', 'stylesheet');
+               darkThemeLink.setAttribute('href', 'popup_dark.css');
+               document.head.appendChild(darkThemeLink);
+
+               binding.toggleTheme.textContent = '🌕';
+           } else {
+               if (darkThemeLink != null)
+                   document.head.removeChild(darkThemeLink);
+
+               binding.toggleTheme.textContent = '🌑';
+           }
        }
        binding.send.textContent = config.dataPacketsSend;
        binding.received.textContent = config.dataPacketsReceived;
@@ -58,6 +75,15 @@ function sendSaveMessage(onResponse) {
         'interval': binding.interval.value
     }, onResponse);
 }
+
+binding.toggleTheme.onclick = () => {
+    chrome.runtime.sendMessage({
+        'receiver': 'config',
+        'command': 'toggleDarkMode'
+    }, response => {
+      updateInformation(false);
+    });
+};
 
 binding.save.onclick = () => {
     if (binding.save.getAttribute('class') == 'disabled') return;

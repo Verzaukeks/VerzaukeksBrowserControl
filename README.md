@@ -4,7 +4,7 @@ and get access to many useful features as if it were an add-on.
 
 [Download Firefox-Addon Here](https://addons.mozilla.org/en-US/firefox/addon/verzaukeksbrowsercontrol/)
 
-Download Chrome-Addon Here (not available)
+Download Chrome-Addon Here (not available / unstable and buggy)
 
 ![Firefox Popup](addon/extras/screenshot_popup.png)
 

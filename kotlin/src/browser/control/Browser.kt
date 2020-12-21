@@ -200,15 +200,17 @@ class Browser {
         return Tab.fromJson(this, response["tab"].asJsonObject)
     }
 
+    /** = getTabs(active=true, currentWindow=true).last() */
     fun getCurrentTab(): Tab {
-        val response = request(JsonObject().apply {
-        }, "getCurrentTab", true)!!
-
-        return Tab.fromJson(this, response["tab"].asJsonObject)
+        return getTabs(TabOptions().apply {
+            active = true
+            currentWindow = true
+        }).last()
     }
 
-    fun getTabs(): List<Tab> {
+    fun getTabs(options: TabOptions? = null): List<Tab> {
         val response = request(JsonObject().apply {
+            add("options", (options ?: TabOptions()).toJson())
         }, "getTabs", true)!!
 
         val list = ArrayList<Tab>()

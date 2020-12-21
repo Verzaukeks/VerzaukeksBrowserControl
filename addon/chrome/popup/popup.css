@@ -4,6 +4,10 @@ html, body {
     font: caption;
 }
 
+input {
+    background: transparent;
+}
+
 .group {
     display: grid;
     grid-template-columns: auto auto;
@@ -62,4 +66,15 @@ footer.panel > .divider {
 .panel > button.disabled {
     background: #ddd;
     color: #666;
+}
+
+#toggleTheme {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 8px;
+}
+
+#toggleTheme:hover {
+    transform: scale(1.1);
 }

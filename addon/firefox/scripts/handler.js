@@ -96,19 +96,8 @@ const handler = {
             })
     },
 
-    getCurrentTab: (packet) => {
-        browser.tabs.query({ currentWindow: true, active: true })
-            .then(tabs => {
-                let tab = tabs[tabs.length-1];
-
-                let response = {};
-                converter.insertTab(response, tab);
-                connector.sendAnswer(packet, response);
-            });
-    },
-
     getTabs: (packet) => {
-        browser.tabs.query({})
+        browser.tabs.query(packet.request.options)
             .then(tabs => {
                 let response = {};
                 response.tabs = [];

@@ -1,0 +1,42 @@
+body {
+    background: #17191a;
+    color: #e1dfdc;
+}
+
+input {
+    color: #e1dfdc;
+}
+
+::placeholder {
+    color: #625f5b;
+}
+
+header.panel {
+    border-bottom: 1px solid #3c4244;
+}
+
+footer.panel {
+    background: #212325;
+    border: 1px solid #3c4244;
+}
+
+footer.panel > .divider {
+    border-left: 1px solid #3c4244;
+}
+
+.group > input[type="text"] {
+    border-bottom: 1px solid #3c4244;
+}
+
+.panel > button {
+    color: #e1dfdc;
+}
+
+.panel > button:hover {
+    background: #2A2E30;
+}
+
+.panel > button.disabled {
+    background: #2a2e30;
+    color: #a39b91;
+}

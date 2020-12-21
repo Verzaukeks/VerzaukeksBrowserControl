@@ -5,11 +5,12 @@
   "version": "1.1.2",
   "description": "Control your browser within your code and get access to many useful features as if it were an add-on.",
   "icons": {
-    "128": "icon.svg"
+    "128": "icon.png"
   },
 
   "permissions": [
     "storage",
+    "cookies",
     "tabs",
     "*://*/*"
   ],

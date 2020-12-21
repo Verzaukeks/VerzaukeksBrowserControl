@@ -8,6 +8,7 @@ const config = {
 
     dataPacketsSend: 0,
     dataPacketsReceived: 0,
+    darkMode: false,
 
     load: () => {
         browser.storage.local.get({
@@ -15,7 +16,8 @@ const config = {
             connectorEnabled: false,
             connectorHost: '127.0.0.1',
             connectorPort: 58001,
-            connectorCheckInterval: 500
+            connectorCheckInterval: 500,
+            darkMode: false
         })
             .then(data => {
                 if (data.version != config.version) {
@@ -26,6 +28,7 @@ const config = {
                 config.connectorHost = data.connectorHost;
                 config.connectorPort = data.connectorPort;
                 config.connectorCheckInterval = data.connectorCheckInterval;
+                config.darkMode = data.darkMode;
                 debug.log(debug.CONFIG, () => 'config successfully loaded');
             });
     },
@@ -36,7 +39,8 @@ const config = {
             connectorEnabled: config.connectorEnabled,
             connectorHost: config.connectorHost,
             connectorPort: config.connectorPort,
-            connectorCheckInterval: config.connectorCheckInterval
+            connectorCheckInterval: config.connectorCheckInterval,
+            darkMode: config.darkMode
         })
             .then(ret => {
                 debug.log(debug.CONFIG, () => 'config successfully saved');
@@ -76,6 +80,11 @@ const config = {
                 config.connectorEnabled = false;
                 clearTimeout(connector.checkForUpdatesId);
                 browserAction.clearBlink();
+            }
+
+            else if (request.command == 'toggleDarkMode') {
+                config.darkMode = !config.darkMode;
+                config.save();
             }
         });
     }

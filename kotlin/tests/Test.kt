@@ -10,9 +10,13 @@ import java.lang.Thread.sleep
 TODO
     - make available for other languages (python, c#, rust, ...)
     - bookmarks
-    - currentTab with optional windowId
-    - getTabs with tabOptions?
-    - dark mode option
+    - cookies
+    - browserSettings
+    - downloads
+    - history
+    - management
+    - windows
+    - (popup) dark mode option
  */
 
 fun main(args: Array<String>) {
@@ -23,7 +27,7 @@ fun main(args: Array<String>) {
 
     val tab = browser.newTab("https://example.com") // newTab(url, active)
     val currentTab = browser.getCurrentTab()
-    val tabs = browser.getTabs()
+    val tabs = browser.getTabs() // getTabs(options)
 
     browser.onTabCreated { println("New tab was created: $it") }
     browser.onTabUpdated { println("A tab was updated: $it") }
