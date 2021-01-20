@@ -16,7 +16,6 @@ TODO
     - history
     - management
     - windows
-    - (popup) dark mode option
  */
 
 fun main(args: Array<String>) {
