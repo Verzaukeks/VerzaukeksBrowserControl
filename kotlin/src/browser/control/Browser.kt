@@ -160,6 +160,7 @@ class Browser {
 
             if (id in responseQueue) {
                 val rPacket = responseQueue[id]!!
+                responseQueue.remove(id)
 
                 if (rPacket["type"].asString == "heartbeat") {
                     tries = 0
@@ -169,7 +170,6 @@ class Browser {
                 if ("response" !in rPacket)
                     throw InvalidObjectException("invalid packet: $rPacket")
 
-                responseQueue.remove(id)
                 return rPacket["response"].asJsonObject
             }
 

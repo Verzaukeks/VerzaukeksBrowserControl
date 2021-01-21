@@ -102,7 +102,7 @@ class Tab(
     fun querySelectorAll(selector: String): List<String> {
         val response = executeScript("var ret_38764238074687246823 = ''; document.querySelectorAll('$selector').forEach(element => ret_38764238074687246823 += element.outerHTML + '\\n'); ret_38764238074687246823;")
         if (response.isEmpty()) return ArrayList<String>()
-        return response.substring(response.indices).split("\n")
+        return response.substring(0, response.length-1).split("\n")
     }
 
     override fun toString() = "Tab{id=$id, url='$url', title='$title', status=$status}"
