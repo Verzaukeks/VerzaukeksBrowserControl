@@ -58,7 +58,7 @@ class Browser {
     private fun run() {
         while (!Thread.interrupted() && server != null && !server!!.isClosed) {
 
-            val socket = try { server!!.accept()  } catch (e: SocketException) { continue }
+            val socket = try { server!!.accept() } catch (e: SocketException) { continue }
             val inputStream = socket.getInputStream()
             val outputStream = socket.getOutputStream()
 
