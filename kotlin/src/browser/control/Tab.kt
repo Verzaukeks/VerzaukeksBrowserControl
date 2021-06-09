@@ -1,5 +1,6 @@
 package browser.control
 
+import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 import java.util.ArrayList
 
@@ -68,6 +69,7 @@ class Tab(
         }, "executeScript", expectAnswer) ?: return ""
 
         if ("result" !in response) return ""
+        if (response["result"] is JsonNull) return ""
         return response["result"].asString
     }
 

@@ -13,10 +13,10 @@ const binding = {
 }
 
 function updateInformation(onlyPackets) {
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         'receiver': 'config',
         'command': 'receive'
-    }).then(config => {
+    }, (config) => {
         if (!onlyPackets) {
             if (config.connectorEnabled) {
                 binding.address.disabled = true
@@ -35,6 +35,7 @@ function updateInformation(onlyPackets) {
             }
             binding.address.value = config.connectorAddress
             binding.interval.value = config.connectorCheckInterval
+            binding.interval.nextElementSibling.textContent = config.connectorCheckInterval
 
             if (config.darkMode) {
                 if (darkThemeLink == undefined || darkThemeLink == null) {
@@ -66,19 +67,19 @@ function updateInformation(onlyPackets) {
 }
 
 function sendSaveMessage(onResponse) {
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         'receiver': 'config',
         'command': 'insert',
         'address': binding.address.value,
         'interval': binding.interval.value
-    }).then(onResponse)
+    }, onResponse)
 }
 
 binding.toggleTheme.onclick = () => {
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         'receiver': 'config',
         'command': 'toggleDarkMode'
-    }).then(response => {
+    }, (response) => {
       updateInformation(false)
     })
 }
@@ -93,10 +94,10 @@ binding.save.onclick = () => {
 
 binding.stop.onclick = () => {
     if (binding.stop.getAttribute('class') == 'disabled') return
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         'receiver': 'config',
         'command': 'disableConnector'
-    }).then(response => {
+    }, (response) => {
         updateInformation(false)
     })
 }
@@ -104,17 +105,16 @@ binding.stop.onclick = () => {
 binding.start.onclick = () => {
     if (binding.start.getAttribute('class') == 'disabled') return
     sendSaveMessage(r => {
-        browser.runtime.sendMessage({
+        chrome.runtime.sendMessage({
             'receiver': 'config',
             'command': 'enableConnector'
-        }).then(response => {
+        }, (response) => {
             updateInformation(false)
         })
     })
 }
 
 binding.address.placeholder = '127.0.0.1:58001'
-binding.interval.nextElementSibling.textContent = '500'
 binding.interval.oninput = () => { binding.interval.nextElementSibling.textContent = binding.interval.value }
 
 setInterval(updateInformation, 1000, true)

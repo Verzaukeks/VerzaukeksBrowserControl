@@ -1,5 +1,6 @@
 const config = {
 
+    isChrome: typeof browser == 'undefined',
     isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
 
     connectorEnabled: false,
@@ -12,22 +13,21 @@ const config = {
     endpointReachable: false,
 
     load: () => {
-        browser.storage.local.get({
+        chrome.storage.local.get({
             connectorEnabled: false,
             connectorAddress: '127.0.0.1:58001',
             connectorCheckInterval: 500,
             darkMode: true
+        }, (data) => {
+            config.connectorEnabled = data.connectorEnabled
+            config.connectorAddress = data.connectorAddress
+            config.connectorCheckInterval = data.connectorCheckInterval
+            config.darkMode = data.darkMode
         })
-            .then(data => {
-                config.connectorEnabled = data.connectorEnabled
-                config.connectorAddress = data.connectorAddress
-                config.connectorCheckInterval = data.connectorCheckInterval
-                config.darkMode = data.darkMode
-            })
     },
 
     save: () => {
-        browser.storage.local.set({
+        chrome.storage.local.set({
             connectorEnabled: config.connectorEnabled,
             connectorAddress: config.connectorAddress,
             connectorCheckInterval: config.connectorCheckInterval,
@@ -36,7 +36,7 @@ const config = {
     },
 
     init: () => {
-        browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (request.receiver != 'config') return
 
             if (request.command == 'receive') {
