@@ -1,5 +1,7 @@
 const config = {
 
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+
     version: 1,
     connectorEnabled: false,
     connectorHost: '127.0.0.1',
@@ -20,17 +22,12 @@ const config = {
             darkMode: false
         })
             .then(data => {
-                if (data.version != config.version) {
-                    debug.log(debug.CONFIG, () => 'saved config outdated');
-                    return;
-                }
-                config.connectorEnabled = data.connectorEnabled;
-                config.connectorHost = data.connectorHost;
-                config.connectorPort = data.connectorPort;
-                config.connectorCheckInterval = data.connectorCheckInterval;
-                config.darkMode = data.darkMode;
-                debug.log(debug.CONFIG, () => 'config successfully loaded');
-            });
+                config.connectorEnabled = data.connectorEnabled
+                config.connectorHost = data.connectorHost
+                config.connectorPort = data.connectorPort
+                config.connectorCheckInterval = data.connectorCheckInterval
+                config.darkMode = data.darkMode
+            })
     },
 
     save: () => {
@@ -42,51 +39,47 @@ const config = {
             connectorCheckInterval: config.connectorCheckInterval,
             darkMode: config.darkMode
         })
-            .then(ret => {
-                debug.log(debug.CONFIG, () => 'config successfully saved');
-            });
     },
 
     init: () => {
         browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            if (request.receiver != 'config') return;
-            debug.log(debug.CONFIG, () => 'config packet received: ' + JSON.stringify(request));
+            if (request.receiver != 'config') return
 
             if (request.command == 'receive') {
-                sendResponse(config);
+                sendResponse(config)
             }
             else if (request.command == 'insert') {
-                config.connectorHost = request.host;
-                config.connectorPort = parseInt(request.port);
-                config.connectorCheckInterval = parseInt(request.interval);
-                config.save();
+                config.connectorHost = request.host
+                config.connectorPort = parseInt(request.port)
+                config.connectorCheckInterval = parseInt(request.interval)
+                config.save()
 
                 if (config.connectorEnabled) {
-                    clearTimeout(connector.checkForUpdatesId);
-                    connector.checkForUpdates();
+                    clearTimeout(connector.checkForUpdatesId)
+                    connector.checkForUpdates()
                 }
             }
 
             else if (request.command == 'enableConnector') {
-                if (config.connectorEnabled) return;
+                if (config.connectorEnabled) return
 
-                config.connectorEnabled = true;
-                connector.checkForUpdates();
-                browserAction.blink();
+                config.connectorEnabled = true
+                connector.checkForUpdates()
+                browserAction.blink()
             }
             else if (request.command == 'disableConnector') {
-                if (!config.connectorEnabled) return;
+                if (!config.connectorEnabled) return
 
-                config.connectorEnabled = false;
-                clearTimeout(connector.checkForUpdatesId);
-                browserAction.clearBlink();
+                config.connectorEnabled = false
+                clearTimeout(connector.checkForUpdatesId)
+                browserAction.clearBlink()
             }
 
             else if (request.command == 'toggleDarkMode') {
-                config.darkMode = !config.darkMode;
-                config.save();
+                config.darkMode = !config.darkMode
+                config.save()
             }
-        });
+        })
     }
 
-};
+}

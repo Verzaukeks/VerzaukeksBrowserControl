@@ -13,7 +13,7 @@ class Browser {
 
     private var server: ServerSocket? = null
     private var thread: Thread? = null
-    var checkInterval: Long = 500 ; private set
+    private var checkInterval = 500L
 
     private val gson = Gson()
     private var packetIndex = 1
@@ -68,12 +68,12 @@ class Browser {
                 val line = readLine(inputStream)
                 if (line.isEmpty()) break
 
-                val key = line.substringBefore(": ").toLowerCase()
+                val key = line.substringBefore(": ").lowercase()
                 val value = line.substringAfter(": ")
                 headers[key] = value
             }
 
-            val type = descriptor.substringBefore(" ").toUpperCase()
+            val type = descriptor.substringBefore(" ").uppercase()
             val contentLength = headers.getOrDefault("content-length", "0").toInt()
             val buffer = ByteArray(contentLength)
             inputStream.read(buffer)
@@ -91,14 +91,13 @@ class Browser {
                 else -> runGet()
             }.let(gson::toJson)
 
-            var response = ""
-            response += "HTTP/1.1 200 OK\n"
-            response += "Access-Control-Allow-Origin: *\n"
-            response += "Access-Control-Allow-Headers: *\n"
-            response += "Content-Type: application/json\n"
-            response += "Content-Length: ${json.length}\n"
-            response += "\n"
-            response += json
+            val response =
+                "HTTP/1.1 200 OK\n" +
+                "Access-Control-Allow-Origin: *\n" +
+                "Access-Control-Allow-Headers: *\n" +
+                "Content-Type: application/json\n" +
+                "Content-Length: ${json.length}\n" +
+                "\n" + json
             outputStream.write(response.encodeToByteArray())
             outputStream.flush()
 
@@ -108,8 +107,8 @@ class Browser {
         }
     }
 
-    private fun runGet(): JsonObject {
-        return JsonObject().apply {
+    private fun runGet() =
+        JsonObject().apply {
             add("queue", JsonArray().apply {
                 synchronized(requestQueue) {
                     requestQueue.forEach(::add)
@@ -117,7 +116,6 @@ class Browser {
                 }
             })
         }
-    }
 
     private fun runPost(packet: JsonObject): JsonObject? {
         if ("id" !in packet || "type" !in packet) return null
@@ -143,6 +141,7 @@ class Browser {
      * @exception TimeoutException thrown if 12*checkInterval has passed without a response (only if expectAnswer)
      */
     fun request(request: JsonObject, type: String, expectAnswer: Boolean): JsonObject? {
+        if (server == null) throw Exception("Server is not running. Browser.start() has yet to be called.")
         val id = packetIndex++
 
         val packet = JsonObject().apply {

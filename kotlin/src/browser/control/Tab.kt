@@ -14,10 +14,10 @@ class Tab(
     companion object {
         fun fromJson(browser: Browser, json: JsonObject): Tab {
             return Tab(browser,
-                    if ("id" in json) json["id"].asInt else -1,
-                    if ("url" in json) json["url"].asString else "",
-                    if ("title" in json) json["title"].asString else "",
-                    if ("status" in json) json["status"].asString else "")
+                json["id"]?.asInt ?: -1,
+                json["url"]?.asString ?: "",
+                json["title"]?.asString ?: "",
+                json["status"]?.asString ?: "")
         }
     }
 

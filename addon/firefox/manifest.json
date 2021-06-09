@@ -16,7 +16,7 @@
   ],
 
   "background": {
-    "scripts": ["scripts/debug.js", "scripts/config.js", "scripts/handler.js", "scripts/connector.js", "scripts/processor.js"]
+    "scripts": ["scripts/config.js", "scripts/handler.js", "scripts/connector.js", "scripts/processor.js"]
   },
 
   "browser_action": {

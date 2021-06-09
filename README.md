@@ -10,6 +10,9 @@ Download Chrome-Addon Here (not available / unstable and buggy)
 ![Firefox Popup Dark](addon/extras/screenshot_popup_dark.png)
 
 ### Kotlin Usage
+
+**Dependencies:** [gson](https://github.com/google/gson)
+
 ````kotlin
 val browser = Browser()
 browser.start() // browser.start(port)
@@ -38,8 +41,6 @@ tab.remove()
 
 browser.stop() // stop(clearListeners)
 ````
-#### Dependencies
-* [gson](https://github.com/google/gson)
 
 ### Python Usage
 ````python
