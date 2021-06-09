@@ -10,33 +10,32 @@
 <body>
 
     <header class="panel">
-        <img id="logo" width="32" height="32" src="../icon.svg"/>
+        <img id="logo" width="32" height="32" src="icon.svg"/>
         <div>VerzaukeksBrowserControl</div>
     </header>
 
     <div class="group">
-        <div class="panel"><label for="status">Status:</label></div>
-        <div id="status"></div>
+        <div class="panel">Address:</div>
+        <input type="text" id="address">
 
-        <div class="panel"><label for="host">Host:</label></div>
-        <input type="text" id="host" />
+        <div class="panel">Check-Interval:</div>
+        <div class="panel">
+            <input title="in ms" type="range" min="0" max="3000" step="50" id="interval" />
+            <label style="width:20px;text-align:right" for="interval"></label>
+        </div>
 
-        <div class="panel"><label for="port">Port:</label></div>
-        <input type="text" id="port" />
-
-        <div class="panel"><label for="interval">CheckInterval (in ms):</label></div>
-        <input type="text" id="interval" />
-
-        <label for="send">Packets Send:</label>
-        <div id="send"></div>
-
-        <label for="received">Packets Received:</label>
-        <div id="received"></div>
+        <div class="panel">Packets:</div>
+        <div class="packetData">
+            <img title="Packets Send" width="25" height="25" src="packets_send.svg"/>
+            <div title="Packets Send" id="send"></div>
+            <img title="Packets Received" width="25" height="25" src="packets_received.svg"/>
+            <div title="Packets Received" id="received"></div>
+        </div>
     </div>
 
-    <button id="toggleTheme"></button>
-
     <footer class="panel">
+        <button id="toggleTheme"></button>
+        <div class="divider"></div>
         <button id="save">Save</button>
         <div class="divider"></div>
         <button id="stop">Stop</button>

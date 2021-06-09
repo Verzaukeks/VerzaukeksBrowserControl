@@ -17,15 +17,21 @@ const browserAction = {
     blinkIntervalId: 0,
 
     init: () => {
-        browser.browserAction.setBadgeTextColor({ color: '#f77c' })
         browser.browserAction.setBadgeBackgroundColor({ color: '#0000' })
+        browser.browserAction.setBadgeTextColor({ color: '#fff000' })
         if (config.connectorEnabled) browserAction.blink()
+    },
+
+    updateColor: () => {
+        if (config.endpointReachable) browser.browserAction.setBadgeTextColor({ color: '#00ff00' })
+        else browser.browserAction.setBadgeTextColor({ color: '#fff000' })
     },
 
     clearBlink: () => {
         clearTimeout(browserAction.blinkIntervalId)
         browserAction.blinkStatus = false
         browser.browserAction.setBadgeText({ text: '' })
+        browser.browserAction.setBadgeTextColor({ color: '#fff000' })
     },
 
     blink: () => {

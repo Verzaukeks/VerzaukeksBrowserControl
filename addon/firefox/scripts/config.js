@@ -2,29 +2,25 @@ const config = {
 
     isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
 
-    version: 1,
     connectorEnabled: false,
-    connectorHost: '127.0.0.1',
-    connectorPort: 58001,
+    connectorAddress: '127.0.0.1:58001',
     connectorCheckInterval: 500,
+    darkMode: true,
 
     dataPacketsSend: 0,
     dataPacketsReceived: 0,
-    darkMode: false,
+    endpointReachable: false,
 
     load: () => {
         browser.storage.local.get({
-            version: -1,
             connectorEnabled: false,
-            connectorHost: '127.0.0.1',
-            connectorPort: 58001,
+            connectorAddress: '127.0.0.1:58001',
             connectorCheckInterval: 500,
-            darkMode: false
+            darkMode: true
         })
             .then(data => {
                 config.connectorEnabled = data.connectorEnabled
-                config.connectorHost = data.connectorHost
-                config.connectorPort = data.connectorPort
+                config.connectorAddress = data.connectorAddress
                 config.connectorCheckInterval = data.connectorCheckInterval
                 config.darkMode = data.darkMode
             })
@@ -32,10 +28,8 @@ const config = {
 
     save: () => {
         browser.storage.local.set({
-            version: config.version,
             connectorEnabled: config.connectorEnabled,
-            connectorHost: config.connectorHost,
-            connectorPort: config.connectorPort,
+            connectorAddress: config.connectorAddress,
             connectorCheckInterval: config.connectorCheckInterval,
             darkMode: config.darkMode
         })
@@ -49,8 +43,7 @@ const config = {
                 sendResponse(config)
             }
             else if (request.command == 'insert') {
-                config.connectorHost = request.host
-                config.connectorPort = parseInt(request.port)
+                config.connectorAddress = request.address
                 config.connectorCheckInterval = parseInt(request.interval)
                 config.save()
 

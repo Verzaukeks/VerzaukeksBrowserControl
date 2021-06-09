@@ -1,10 +1,8 @@
-let darkThemeLink = null
+let darkThemeLink = undefined
 
 const binding = {
     logo: document.getElementById('logo'),
-    status: document.getElementById('status'),
-    host: document.getElementById('host'),
-    port: document.getElementById('port'),
+    address: document.getElementById('address'),
     interval: document.getElementById('interval'),
     send: document.getElementById('send'),
     received: document.getElementById('received'),
@@ -21,46 +19,47 @@ function updateInformation(onlyPackets) {
     }).then(config => {
         if (!onlyPackets) {
             if (config.connectorEnabled) {
-                binding.logo.setAttribute('class', 'green')
-                binding.status.textContent = 'Running'
-
-                binding.host.disabled = true
-                binding.port.disabled = true
+                binding.address.disabled = true
                 binding.interval.disabled = true
 
                 binding.save.setAttribute('class', 'disabled')
                 binding.stop.removeAttribute('class')
                 binding.start.setAttribute('class', 'disabled')
             } else {
-                binding.logo.removeAttribute('class')
-                binding.status.textContent = 'Halted'
-
-                binding.host.disabled = false
-                binding.port.disabled = false
+                binding.address.disabled = false
                 binding.interval.disabled = false
 
                 binding.save.removeAttribute('class')
                 binding.stop.setAttribute('class', 'disabled')
                 binding.start.removeAttribute('class')
             }
-            binding.host.value = config.connectorHost
-            binding.port.value = config.connectorPort
+            binding.address.value = config.connectorAddress
             binding.interval.value = config.connectorCheckInterval
 
             if (config.darkMode) {
-                darkThemeLink = document.createElement('LINK')
-                darkThemeLink.setAttribute('rel', 'stylesheet')
-                darkThemeLink.setAttribute('href', 'popup_dark.css')
-                document.head.appendChild(darkThemeLink)
+                if (darkThemeLink == undefined || darkThemeLink == null) {
+                    darkThemeLink = document.createElement('LINK')
+                    darkThemeLink.setAttribute('rel', 'stylesheet')
+                    darkThemeLink.setAttribute('href', 'popup_dark.css')
+                    document.head.appendChild(darkThemeLink)
 
-                binding.toggleTheme.textContent = '🌕'
+                    binding.toggleTheme.textContent = '🌕'
+                }
             } else {
-                if (darkThemeLink != null)
-                    document.head.removeChild(darkThemeLink)
+                if (darkThemeLink == undefined || darkThemeLink != null) {
+                    if (darkThemeLink != undefined) document.head.removeChild(darkThemeLink)
+                    darkThemeLink = null
 
-                binding.toggleTheme.textContent = '🌑'
+                    binding.toggleTheme.textContent = '🌑'
+                }
             }
         }
+
+        if (config.connectorEnabled) {
+            if (config.endpointReachable) binding.logo.setAttribute('class', 'green')
+            else binding.logo.setAttribute('class', 'yellow')
+        } else binding.logo.setAttribute('class', 'gray')
+
         binding.send.textContent = config.dataPacketsSend
         binding.received.textContent = config.dataPacketsReceived
     })
@@ -70,8 +69,7 @@ function sendSaveMessage(onResponse) {
     browser.runtime.sendMessage({
         'receiver': 'config',
         'command': 'insert',
-        'host': binding.host.value,
-        'port': binding.port.value,
+        'address': binding.address.value,
         'interval': binding.interval.value
     }).then(onResponse)
 }
@@ -115,9 +113,9 @@ binding.start.onclick = () => {
     })
 }
 
-binding.host.placeholder = '127.0.0.1'
-binding.port.placeholder = '58001'
-binding.interval.placeholder = '500'
+binding.address.placeholder = '127.0.0.1:58001'
+binding.interval.nextElementSibling.textContent = '500'
+binding.interval.oninput = () => { binding.interval.nextElementSibling.textContent = binding.interval.value }
 
 setInterval(updateInformation, 1000, true)
 updateInformation(false)

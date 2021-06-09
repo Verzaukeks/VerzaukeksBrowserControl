@@ -33,8 +33,18 @@ header.panel > div {
     width: 100%;
 }
 
-img.green {
-    filter: invert(55%) sepia(63%) saturate(4043%) hue-rotate(85deg) brightness(101%) contrast(117%);
+img.gray { filter: invert(70%) sepia(7%) saturate(18%) hue-rotate(17deg) brightness(96%) contrast(87%); }
+img.yellow { filter: invert(89%) sepia(22%) saturate(1798%) hue-rotate(359deg) brightness(104%) contrast(104%); }
+img.green { filter: invert(55%) sepia(63%) saturate(4043%) hue-rotate(85deg) brightness(101%) contrast(117%); }
+
+.packetData {
+    display: flex;
+    align-items: center;
+}
+
+.packetData > div {
+    margin-left: 5px;
+    margin-right: 20px;
 }
 
 footer.panel {

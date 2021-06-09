@@ -5,13 +5,17 @@ const connector = {
         if (!config.connectorEnabled) return
         if (connector.checkForUpdatesId == -1) return
         connector.checkForUpdatesId = -1
-        fetch('http://' + config.connectorHost + ':' + config.connectorPort + '/' + config.connectorCheckInterval)
+        fetch('http://' + config.connectorAddress + '/' + config.connectorCheckInterval)
             .then(response => response.json())
             .then(json => {
                 if (json.queue) json.queue.forEach(connector.onUpdate)
+                config.endpointReachable = true
+                browserAction.updateColor()
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval)
             })
             .catch(error => {
+                config.endpointReachable = false
+                browserAction.updateColor()
                 connector.checkForUpdatesId = setTimeout(connector.checkForUpdates, config.connectorCheckInterval)
             })
     },
@@ -57,7 +61,7 @@ const connector = {
     sendUpdate: (packet, onResponse) => {
         if (!config.connectorEnabled) return
 
-        fetch('http://' + config.connectorHost + ':' + config.connectorPort, {
+        fetch('http://' + config.connectorAddress, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
